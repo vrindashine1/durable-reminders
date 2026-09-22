@@ -137,9 +137,9 @@ If scaling this system for high production traffic:
 3. Distributed Lock Manager: Use Redlock or ZooKeeper for sub-second distributed locking across hundreds of worker nodes.
 
 ## AI usage
--Tools Used: chat Gpt
--Contribution: Used for research on Luxon timezone edge cases, refining unit test edge cases, and drafting initial documentation outlines.
--Verification Process: All code, application logic, and test suites were written, reviewed, debugged, and fully validated locally using `npm test` and `npm run benchmark`.
+- Tools Used: chat Gpt
+- Contribution: Used for research on Luxon timezone edge cases, refining unit test edge cases, and drafting initial documentation outlines.
+- Verification Process: All code, application logic, and test suites were written, reviewed, debugged, and fully validated locally using `npm test` and `npm run benchmark`.
 
 ## Credibility note
 
