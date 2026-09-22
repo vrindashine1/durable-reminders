@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Durable Reminders & Follow-ups</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.5; }
+    .card { border: 1px solid #ccc; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input, select, button { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
+    button { background: #0066cc; color: white; border: none; border-radius: 4px; padding: 10px; font-size: 16px; cursor: pointer; margin-top: 15px; }
+    button:hover { background: #0052a3; }
+    pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+
+  <h1>Durable Reminders Scheduler</h1>
+
+  <div class="card">
+    <h2>Schedule a New Reminder</h2>
+    <form id="reminderForm">
+      <label>Title</label>
+      <input type="text" id="title" placeholder="e.g., Follow up with client" required>
+
+      <label>Date & Time</label>
+      <input type="datetime-local" id="scheduledAt" required>
+
+      <label>Timezone</label>
+      <input type="text" id="userTimezone" value="America/New_York" required>
+
+      <label>Idempotency Key</label>
+      <input type="text" id="idempotencyKey" required>
+
+      <button type="submit">Schedule Reminder</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Manage Existing Reminder</h2>
+    <label>Reminder ID</label>
+    <input type="text" id="reminderId" placeholder="Enter MongoDB Object ID">
+    <div style="display: flex; gap: 10px; margin-top: 10px;">
+      <button onclick="checkStatus()" style="background: #28a745;">Check Status</button>
+      <button onclick="cancelReminder()" style="background: #dc3545;">Cancel Reminder</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Output / Logs</h2>
+    <pre id="output">Results will appear here...</pre>
+  </div>
+
+  <script>
+    // Set default idempotency key & datetime
+    document.getElementById('idempotencyKey').value = 'key-' + Date.now();
+    const now = new Date();
+    now.setMinutes(now.getMinutes() + 2); // default 2 mins in future
+    document.getElementById('scheduledAt').value = now.toISOString().slice(0,16);
+
+    document.getElementById('reminderForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        title: document.getElementById('title').value,
+        scheduledAt: document.getElementById('scheduledAt').value,
+        userTimezone: document.getElementById('userTimezone').value,
+        idempotencyKey: document.getElementById('idempotencyKey').value
+      };
+
+      const res = await fetch('/api/reminders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+      if (data.data && data.data._id) {
+        document.getElementById('reminderId').value = data.data._id;
+      }
+    });
+
+    async function checkStatus() {
+      const id = document.getElementById('reminderId').value;
+      if (!id) return alert('Enter a Reminder ID');
+      const res = await fetch(`/api/reminders/${id}`);
+      const data = await res.json();
+      document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function cancelReminder() {
+      const id = document.getElementById('reminderId').value;
+      if (!id) return alert('Enter a Reminder ID');
+      const res = await fetch(`/api/reminders/${id}/cancel`, { method: 'POST' });
+      const data = await res.json();
+      document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
