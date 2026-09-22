@@ -80,8 +80,7 @@ Then their execution instants are deterministic and documented
 
 *Verification Benchmark*
 -Command used to run the verification benchmark:
-```Bash
-npm run benchmark
+-npm run benchmark
 
 *Observed Result:*
 -DELIVERED: 10 — Standard reminders successfully claimed and delivered.
