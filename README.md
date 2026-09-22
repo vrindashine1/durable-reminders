@@ -46,17 +46,17 @@ Make sure you have installed:
 
 ## How to Run Tests & Verification
 1. Run Automated Unit & Acceptance Tests (AC1–AC7)
-npm test
+-npm test
 
 
 2. Run Verification Benchmark
-npm run benchmark
+-npm run benchmark
 
 
 3. Start the Web Server & Interactive Dashboard
-npm start
+-npm start
 Once started, open your browser and navigate to:
- http://localhost:3000
+- http://localhost:3000
 
 
 ## Project Structure
