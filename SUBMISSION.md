@@ -5,7 +5,7 @@
 
 - Name: vrinda shine
 - Email: vrindashine725@gmail.com
-- GitHub: 
+- GitHub: https://github.com/vrindashine1/durable-reminders.git
 - Selected problem: Problem 3: Durable Reminders and Follow-ups
 - Demo video: https://drive.google.com/file/d/1fKqXFFEr6tBdDo2lEhupy9mQii-a8vaa/view?usp=sharing
 ---
