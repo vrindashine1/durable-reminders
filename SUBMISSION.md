@@ -37,7 +37,7 @@ Open your browser and navigate to http://localhost:3000 to access the web interf
 
 ## Run the tests
 Run all deterministic acceptance tests (AC1–AC7):
-npm test
+-npm test
 
 ## Acceptance scenarios and verification
 *Completed Acceptance Scenarios*
@@ -79,21 +79,22 @@ Then their execution instants are deterministic and documented
 
 
 *Verification Benchmark*
-Command used to run the verification benchmark:
-Bash
+-Command used to run the verification benchmark:
+```Bash
 npm run benchmark
 
 *Observed Result:*
-DELIVERED: 10 — Standard reminders successfully claimed and delivered.
+-DELIVERED: 10 — Standard reminders successfully claimed and delivered.
 
-SCHEDULED: 10 — Reminders in active backoff retry loops and bounded attempts.
+-SCHEDULED: 10 — Reminders in active backoff retry loops and bounded attempts.
 
-CANCELLED: 5 — Pre-cancelled items correctly ignored by the worker.
+-CANCELLED: 5 — Pre-cancelled items correctly ignored by the worker.
 
 Total Processed Items: 25 test items across multiple states and timezones.
 
 *Failure/Recovery Scenario in Demo Video*
-In the video, a service crash is simulated while reminders are scheduled. The clock is fast-forwarded past the execution instant, and upon restarting the server, the background worker automatically claims the overdue reminders and marks them DELIVERED.
+-In the video, a service crash is simulated while reminders are scheduled. The clock is fast-forwarded past the execution instant, and upon restarting the server, the background worker automatically claims the overdue reminders and marks them DELIVERED.
+-https://drive.google.com/file/d/1fKqXFFEr6tBdDo2lEhupy9mQii-a8vaa/view?usp=sharing
 
 ## Architecture and data flow
 
@@ -122,9 +123,9 @@ In the video, a service crash is simulated while reminders are scheduled. The cl
 
 ## Assumptions and limitations
 
-Out of Scope: Natural language date parsing (e.g., "remind me next Tuesday"), SMS/Email integration (uses internal delivery logs), and user authentication/multi-tenancy.
+-Out of Scope: Natural language date parsing (e.g., "remind me next Tuesday"), SMS/Email integration (uses internal delivery logs), and user authentication/multi-tenancy.
 
-Limitation: Polling intervals (e.g., every 5 seconds) trade off instantaneous sub-second execution for architectural simplicity and database safety.
+-Limitation: Polling intervals (e.g., every 5 seconds) trade off instantaneous sub-second execution for architectural simplicity and database safety.
 
 ## Production and scale
 
@@ -143,14 +144,14 @@ If scaling this system for high production traffic:
 
 ## Credibility note
 
-Problem Solved: I built an eCommerce web application to provide a complete online shopping flow, including user authentication, product browsing, cart management, checkout, and order management.
+-Problem Solved: I built an eCommerce web application to provide a complete online shopping flow, including user authentication, product browsing, cart management, checkout, and order management.
 
-Personal Contribution: I built the application using React, Node.js, Express.js, and MongoDB. I implemented REST APIs, authentication, database models, product management, cart and order functionality, and the integration between the frontend and backend. I also debugged and tested the major user flows.
+-Personal Contribution: I built the application using React, Node.js, Express.js, and MongoDB. I implemented REST APIs, authentication, database models, product management, cart and order functionality, and the integration between the frontend and backend. I also debugged and tested the major user flows.
 
-Scale / Complexity: This was a personal project, so it was not operated at commercial production scale. The main complexity was coordinating authentication, API routes, database operations, frontend state, and different user flows such as customer and admin functionality.
+-Scale / Complexity: This was a personal project, so it was not operated at commercial production scale. The main complexity was coordinating authentication, API routes, database operations, frontend state, and different user flows such as customer and admin functionality.
 
-Key Engineering Decision: One important decision was to keep the backend organized around REST APIs, middleware, controllers, and MongoDB models. This made the code easier to debug and helped me understand how a real backend is structured.
+-Key Engineering Decision: One important decision was to keep the backend organized around REST APIs, middleware, controllers, and MongoDB models. This made the code easier to debug and helped me understand how a real backend is structured.
 
-Evidence: https://ecommerce-mern-deploy-to-render-2024-1.onrender.com
+-Evidence: https://ecommerce-mern-deploy-to-render-2024-1.onrender.com
 
 
