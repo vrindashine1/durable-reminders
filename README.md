@@ -32,8 +32,8 @@ Make sure you have installed:
 
 1. **Clone the repository**:
    bash
-   git clone 
-   cd durable-reminders
+   - git clone https://github.com/vrindashine1/durable-reminders.git
+   - cd durable-reminders
    
 2. **Install dependencies**:
       npm install
