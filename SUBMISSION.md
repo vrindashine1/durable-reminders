@@ -80,36 +80,36 @@ Then their execution instants are deterministic and documented
 
 *Verification Benchmark*
 -Command used to run the verification benchmark:
--npm run benchmark
+- npm run benchmark
 
 *Observed Result:*
--DELIVERED: 10 — Standard reminders successfully claimed and delivered.
+- DELIVERED: 10 — Standard reminders successfully claimed and delivered.
 
--SCHEDULED: 10 — Reminders in active backoff retry loops and bounded attempts.
+- SCHEDULED: 10 — Reminders in active backoff retry loops and bounded attempts.
 
--CANCELLED: 5 — Pre-cancelled items correctly ignored by the worker.
+- CANCELLED: 5 — Pre-cancelled items correctly ignored by the worker.
 
 Total Processed Items: 25 test items across multiple states and timezones.
 
 *Failure/Recovery Scenario in Demo Video*
--In the video, a service crash is simulated while reminders are scheduled. The clock is fast-forwarded past the execution instant, and upon restarting the server, the background worker automatically claims the overdue reminders and marks them DELIVERED.
--https://drive.google.com/file/d/1fKqXFFEr6tBdDo2lEhupy9mQii-a8vaa/view?usp=sharing
+- In the video, a service crash is simulated while reminders are scheduled. The clock is fast-forwarded past the execution instant, and upon restarting the server, the background worker automatically claims the overdue reminders and marks them DELIVERED.
+- https://drive.google.com/file/d/1fKqXFFEr6tBdDo2lEhupy9mQii-a8vaa/view?usp=sharing
 
 ## Architecture and data flow
 
--API / Web UI Layer (src/routes/, public/): Accepts user input to schedule, edit, view, or cancel reminders.
+- API / Web UI Layer (src/routes/, public/): Accepts user input to schedule, edit, view, or cancel reminders.
 
--Database Layer (src/models/Reminder.js): MongoDB acts as the single source of truth, storing state (SCHEDULED, RUNNING, DELIVERED, CANCELLED, FAILED), execution history, and atomic locks (lockedAt).
+- Database Layer (src/models/Reminder.js): MongoDB acts as the single source of truth, storing state (SCHEDULED, RUNNING, DELIVERED, CANCELLED, FAILED), execution history, and atomic locks (lockedAt).
 
--Background Worker (src/services/SchedulerService.js): Polls MongoDB periodically for due tasks (scheduledAtUTC <= now). It -claims tasks atomically using findOneAndUpdate, preventing race conditions.
+- Background Worker (src/services/SchedulerService.js): Polls MongoDB periodically for due tasks (scheduledAtUTC <= now). It -claims tasks atomically using findOneAndUpdate, preventing race conditions.
 
 -Time & Clock Utility (src/utils/Clock.js, src/utils/timezone.js): Handles IANA timezone conversions to UTC and provides fast-forwarding time capabilities for tests.
 
 ## Technology choices
--Node.js & Express.js: Lightweight, non-blocking asynchronous event loop ideal for polling background tasks.
--MongoDB & Mongoose: Selected because atomic operations (findOneAndUpdate) allow using the database directly as a durable job -queue without introducing complex external infrastructure like Redis or BullMQ.
--Luxon: Excellent IANA timezone parsing and Daylight Saving Time (DST) handling capabilities.
--Jest & Supertest: Robust testing frameworks for deterministic API and model validation.
+- Node.js & Express.js: Lightweight, non-blocking asynchronous event loop ideal for polling background tasks.
+- MongoDB & Mongoose: Selected because atomic operations (findOneAndUpdate) allow using the database directly as a durable job -queue without introducing complex external infrastructure like Redis or BullMQ.
+- Luxon: Excellent IANA timezone parsing and Daylight Saving Time (DST) handling capabilities.
+- Jest & Supertest: Robust testing frameworks for deterministic API and model validation.
 
 ## Important decisions
 
@@ -122,9 +122,9 @@ Total Processed Items: 25 test items across multiple states and timezones.
 
 ## Assumptions and limitations
 
--Out of Scope: Natural language date parsing (e.g., "remind me next Tuesday"), SMS/Email integration (uses internal delivery logs), and user authentication/multi-tenancy.
+- Out of Scope: Natural language date parsing (e.g., "remind me next Tuesday"), SMS/Email integration (uses internal delivery logs), and user authentication/multi-tenancy.
 
--Limitation: Polling intervals (e.g., every 5 seconds) trade off instantaneous sub-second execution for architectural simplicity and database safety.
+- Limitation: Polling intervals (e.g., every 5 seconds) trade off instantaneous sub-second execution for architectural simplicity and database safety.
 
 ## Production and scale
 
